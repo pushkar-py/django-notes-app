@@ -1,0 +1,33 @@
+<div class="relative rounded-lg shadow p-4 hover:shadow-lg transition group cursor-pointer"
+     style="background-color: {{ note.color }};">
+
+    <!-- Title -->
+    <h3 class="font-bold mb-1 break-words">{{ note.title }}</h3>
+
+    <!-- Content -->
+    <p class="text-sm mb-6 break-words">{{ note.content }}</p>
+
+
+    <!-- ACTION ICONS (Show only on hover) -->
+    <div class="absolute bottom-2 right-2 hidden group-hover:flex gap-3 text-lg">
+
+        <!-- Pin / Unpin -->
+        {% if note.is_pinned %}
+            <a href="/notes/unpin/{{ note.id }}/" title="Unpin" class="hover:opacity-70">📌</a>
+        {% else %}
+            <a href="/notes/pin/{{ note.id }}/" title="Pin" class="hover:opacity-70">📍</a>
+        {% endif %}
+
+        <!-- Archive / Unarchive -->
+        {% if note.is_archived %}
+            <a href="/notes/unarchive/{{ note.id }}/" title="Unarchive" class="hover:opacity-70">📂</a>
+        {% else %}
+            <a href="/notes/archive/{{ note.id }}/" title="Archive" class="hover:opacity-70">🗄️</a>
+        {% endif %}
+
+        <!-- Delete (Soft delete) -->
+        <a href="/notes/delete/{{ note.id }}/" title="Delete" class="hover:opacity-70">🗑️</a>
+
+    </div>
+
+</div>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+
+    <!-- PAGE TITLE -->
+    <h1 class="text-3xl font-bold mb-6">My Notes</h1>
+
+
+    <!-- TAKE A NOTE BOX (Opens Modal) -->
+    <div onclick="openModal()"
+         class="bg-white p-4 rounded-lg shadow cursor-pointer max-w-xl mx-auto mb-6 hover:shadow-md transition">
+        Take a note...
+    </div>
+
+
+    <!-- PINNED NOTES -->
+    {% if pinned_notes %}
+    <h2 class="text-xl font-semibold mb-2">PINNED</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        {% for note in pinned_notes %}
+            {% include "notes/note_card.html" %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- OTHER NOTES -->
+    <h2 class="text-xl font-semibold mb-2">OTHERS</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {% for note in other_notes %}
+            {% include "notes/note_card.html" %}
+        {% endfor %}
+    </div>
+
+
+
+
+    <!-- CREATE NOTE MODAL -->
+    <div id="noteModal"
+         class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+
+        <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+
+            <form method="POST" action="/notes/create/">
+                {% csrf_token %}
+
+                <input type="text" name="title" placeholder="Title"
+                       class="w-full mb-3 border-b p-2 outline-none">
+
+                <textarea name="content" placeholder="Take a note..."
+                          class="w-full h-32 p-2 border rounded"></textarea>
+
+
+                <!-- COLOR PICKER -->
+                <div class="flex gap-2 my-3">
+
+                    <label>
+                        <input type="radio" name="color" value="white" checked>
+                        <span class="inline-block w-6 h-6 rounded-full border bg-white"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="yellow">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-yellow-200"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="blue">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-blue-200"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="green">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-green-200"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="pink">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-pink-200"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="purple">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-purple-200"></span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="color" value="gray">
+                        <span class="inline-block w-6 h-6 rounded-full border bg-gray-200"></span>
+                    </label>
+
+                </div>
+
+
+                <!-- SAVE + CANCEL -->
+                <button class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+
+                <button type="button"
+                        onclick="closeModal()"
+                        class="ml-2 text-gray-500">
+                    Cancel
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- JAVASCRIPT FOR MODAL -->
+    <script>
+        function openModal() {
+            const modal = document.getElementById("noteModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("noteModal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+    </script>
+
+</body>
+</html>
